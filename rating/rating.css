@@ -1,0 +1,15 @@
+.rating-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* flex-direction: column; */
+    height: 100%;
+}
+
+.rating-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
