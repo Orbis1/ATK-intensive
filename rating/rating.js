@@ -48,21 +48,37 @@ define(["qlik", "text!./rating.html", "css!./rating.css"], function (
                   defaultValue: "5",
                 },
 
-                heartMaxCount: {
+                iconMaxCount: {
                   type: "string",
                   label: "Max count",
-                  ref: "props.heartMaxCount",
+                  ref: "props.iconMaxCount",
                   expression: "optional",
                   defaultValue: "5",
                 },
 
-                heartColor: {
-                  type: "string",
+                iconColor: {
+                  type: "integer",
+                  component: "color-picker",
                   label: "Color",
-                  ref: "props.heartColor",
-                  expression: "optional",
-                  defaultValue: "red",
+                  ref: "props.iconColor",
+                  defaultValue: 3,
                 },
+
+                iconType: {
+                  type: "string",
+                  component: "dropdown",
+                  label: "Icon type",
+                  ref: "props.iconType",
+                  option: [{
+                    value: "main",
+                    label: "main"
+                  }, {
+                    value: "minor",
+                    label: "minor"
+                  }],
+                  defaultValue: "main"
+                },
+
               },
             },
           },
@@ -82,16 +98,17 @@ define(["qlik", "text!./rating.html", "css!./rating.css"], function (
         extension.innerHTML = "";
 
         let value = Number(layout.qHyperCube.qDataPages[0].qMatrix[0][0].qNum);
-        let { target, heartMaxCount, heartColor } = layout.props;
+        let { target, iconMaxCount} = layout.props;
         target = Number(target);
-        heartMaxCount = Number(heartMaxCount);
+        iconMaxCount = Number(iconMaxCount);
+        let iconColor = layout.props.iconColor.color;
 
-        let heartCount = Math.floor(value / target * heartMaxCount);
+        let iconCount = Math.floor(value / target * iconMaxCount);
 
         let svgContainer = document. createElement ('div');
         svgContainer.innerHTML = template;
-        let filledHeart = svgContainer.querySelector('.rating-heart-filled')
-        let borderHeart = svgContainer.querySelector('.rating-heart-border')
+        let filledicon = svgContainer.querySelector('.rating-icon-filled')
+        let bordericon = svgContainer.querySelector('.rating-icon-border')
         
         let wrapper = document.createElement('div');
         wrapper.className = 'rating-wrapper';
@@ -102,36 +119,37 @@ define(["qlik", "text!./rating.html", "css!./rating.css"], function (
         wrapper.appendChild(container);
         let containerWidth = extension.offsetWidth;
         let containerHeigth = extension.offsetHeight;
-        let heartSize = containerWidth / (heartMaxCount + 1);
+        let iconSize = containerWidth / (iconMaxCount + 1);
 
-        if (heartSize > containerHeigth) {
-          heartSize = containerHeigth;
+        if (iconSize > containerHeigth) {
+          iconSize = containerHeigth;
         };
 
 
   
-        if (value <= 0 || isNaN(value)) heartCount = 0;
-        if (value > target) heartCount = heartMaxCount;
+        if (value <= 0 || isNaN(value)) iconCount = 0;
+        if (value > target) iconCount = iconMaxCount;
 
-        for (let i = 0; i < heartMaxCount; i++) {
-          let heart;
-          if (i <= heartCount) {
-            heart = filledHeart.cloneNode(true);
+        for (let i = 0; i < iconMaxCount; i++) {
+          let icon;
+          if (i <= iconCount) {
+            icon = filledicon.cloneNode(true);
           } else {
-            heart = borderHeart.cloneNode(true);
+            icon = bordericon.cloneNode(true);
           }
-          heart.style.width = `${heartSize}px`;
-          heart.style.heigth = `${heartSize}px`;
-          heart.style.fill = heartColor;
+          icon.style.width = `${iconSize}px`;
+          icon.style.heigth = `${iconSize}px`;
+          icon.style.fill = iconColor;
 
-          container.appendChild(heart);
+          container.appendChild(icon);
         }
 
-        console.log(extension);
+        
       }
       catch (error) {
         console.log('!error', error);
       }
+      console.log(layout);
       return qlik.Promise.resolve();
     },
   };
