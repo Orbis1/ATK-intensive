@@ -57,11 +57,14 @@ define(["qlik", "text!./rating.html", "css!./rating.css"], function (
                 },
 
                 iconColor: {
-                  type: "integer",
-                  component: "color-picker",
                   label: "Color",
+                  component: "color-picker",
                   ref: "props.iconColor",
-                  defaultValue: 3,
+                  type: "object",
+                  defaultValue: {
+                    color: "#b0afae",
+                    index: 1
+                  },
                 },
 
                 iconType: {
@@ -69,7 +72,7 @@ define(["qlik", "text!./rating.html", "css!./rating.css"], function (
                   component: "dropdown",
                   label: "Icon type",
                   ref: "props.iconType",
-                  option: [{
+                  options: [{
                     value: "main",
                     label: "main"
                   }, {
