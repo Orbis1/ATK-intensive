@@ -73,13 +73,13 @@ define(["qlik", "text!./rating.html", "css!./rating.css"], function (
                   label: "Icon type",
                   ref: "props.iconType",
                   options: [{
-                    value: "main",
-                    label: "main"
+                    value: "heart",
+                    label: "heart"
                   }, {
-                    value: "minor",
-                    label: "minor"
+                    value: "star",
+                    label: "star"
                   }],
-                  defaultValue: "main"
+                  defaultValue: "heart"
                 },
 
               },
@@ -105,13 +105,13 @@ define(["qlik", "text!./rating.html", "css!./rating.css"], function (
         target = Number(target);
         iconMaxCount = Number(iconMaxCount);
         let iconColor = layout.props.iconColor.color;
-
+        let iconType = layout.props.iconType;
         let iconCount = Math.floor(value / target * iconMaxCount);
 
         let svgContainer = document. createElement ('div');
         svgContainer.innerHTML = template;
-        let filledicon = svgContainer.querySelector('.rating-icon-filled')
-        let bordericon = svgContainer.querySelector('.rating-icon-border')
+        let filledicon = svgContainer.querySelector(`.rating-${iconType}-filled`)
+        let bordericon = svgContainer.querySelector(`.rating-${iconType}-border`)
         
         let wrapper = document.createElement('div');
         wrapper.className = 'rating-wrapper';
@@ -127,8 +127,6 @@ define(["qlik", "text!./rating.html", "css!./rating.css"], function (
         if (iconSize > containerHeigth) {
           iconSize = containerHeigth;
         };
-
-
   
         if (value <= 0 || isNaN(value)) iconCount = 0;
         if (value > target) iconCount = iconMaxCount;
@@ -146,8 +144,6 @@ define(["qlik", "text!./rating.html", "css!./rating.css"], function (
 
           container.appendChild(icon);
         }
-
-        
       }
       catch (error) {
         console.log('!error', error);
