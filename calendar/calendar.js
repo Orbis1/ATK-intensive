@@ -1,4 +1,4 @@
-define( [ "qlik", , "text!./template.html", "css!./calendar.css"
+define( [ "qlik", "text!./template.html", "css!./calendar.css"
 ],
 function (qlik, template) {
 
