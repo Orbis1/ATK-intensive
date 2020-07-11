@@ -1,1 +1,45 @@
-/* CSS */
+.calendar-container {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+.calendar-wrapper {
+    display: flex;
+    height: 100%;
+    flex-grow: 0;
+}
+
+.calendar-legend {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.calendar-legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.calendar-legend-color {
+    width: 60px;
+    height: 20px;
+    margin: 3px 6px;
+}
+
+.calendar-legend-label {
+    font-size: 12px;
+}
+
+.calendar-tooltip {
+    position: absolute;
+    display: block;
+    max-width: 300px;
+    max-height: 400px;
+    background: #fff;
+    padding: 5px 3px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    z-index: 10;
+    white-space: nowrap;
+}
