@@ -1,0 +1,22 @@
+{
+    "name":" Vizlib Bar Chart v2.5.2",
+    "description" : "Compare multiple values, with one bar for each dimension value. Use grouped bars or overlapping bars to compare items of the same category. Use stacked bars to compare the totals of items across categories.",
+    "icon" : "bar-chart-vertical",
+    "type" : "visualization",
+	"preview" : "VizlibBarChart.png",    
+    "version": "2.5.2",
+	"bundle": {
+		"id": "vizlib-bundle",
+		"name": "Vizlib Library",
+		"description": "Vizlib is an advanced extension library for Qlik Sense offering a better way to communicate data by leveraging vizualisations, tables and control components. ........................................................... www.vizlib.com"
+    },
+	"author": "Vizlib ltd.",
+	"homepage": "vizlib.com",
+	"keywords": "qlik-sense, visualization",
+	"license": "2017-2018 © Vizlib Ltd. - All rights reserved.",
+	"email":	"support@vizlib.com",
+	"repository": "",
+	"dependencies": {
+		"qlik-sense": ">=2.0.x"
+	}
+}

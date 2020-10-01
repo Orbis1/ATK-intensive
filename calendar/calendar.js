@@ -260,7 +260,7 @@ function (qlik, template, d3, test) {
               var max = d3.max(data.map(d => d.value));
               var min = d3.min(data.map(d => d.value));
               var color = d3.scaleSequential(palette[chousenColor]).domain([min, max]);
-              const colorGray = d3.scaleSequential(palette['gray']).domain([min, max]);
+              const colorGray = d3.scaleSequential(d3.interpolateRgb("rgb(150, 150, 150)", "rgb(50, 50, 50)")).domain([min, max]);
 
               const boundaryValues = [min, max];
 
@@ -331,11 +331,18 @@ function (qlik, template, d3, test) {
                   })
                   .attr("x", d => timeWeek.count(d3.utcYear(d.date), d.date) * cellSize + 0.5)
                   .attr("y", d => countDay(d.date) * cellSize + 0.5)
+
                   .attr("fill", d => selectedCount 
                                         ? d.isSelected 
                                             ? color(d.value) 
                                             : colorGray(d.value)
                                         : color(d.value))
+
+                  // .attr("opacity", d => selectedCount 
+                  //                       ? d.isSelected 
+                  //                           ? 1 
+                  //                           : 0.25
+                  //                       : 1)
                   .on("mouseover", function (d) {
                     tooltip.transition()
                       .duration(200)
