@@ -1,4 +1,4 @@
-define( ["qlik", "jquery"], function ( qlik, $ ) {
+define( ["qlik", "jquery", './helloWorld'], function ( qlik, helloWorld ) {
 	'use strict';
 	return {
 		initialProperties: {
@@ -14,31 +14,9 @@ define( ["qlik", "jquery"], function ( qlik, $ ) {
 		},
 		support : {
 		},
-		paint: function ( $element,layout ) {
-      alert('security.js is running v.4');
-
+		paint: function () {
       try {
-        // $("select[title='export]")
-
-        // выбираем элемент
-        let target = document.querySelector('.ng-scope');
-        
-        // создаем экземпляр наблюдателя
-        let observer = new MutationObserver(mutations => {
-            mutations.forEach(mutation => {
-                console.log(mutation.type);
-            });    
-        });
-        
-        // настраиваем наблюдатель
-        var config = { attributes: true, subtree: true, childList: true, characterData: true }
-        
-        // передаем элемент и настройки в наблюдатель
-        observer.observe(target, config);
-        
-        // позже можно остановить наблюдение
-        // observer.disconnect();        
-        
+        helloWorld.showMessage();
       } catch (error) {
         console.log(error);
       }
@@ -47,5 +25,6 @@ define( ["qlik", "jquery"], function ( qlik, $ ) {
 
 		}
 	};
-} );
+});
 
+//'//code.highcharts.com/highcharts.js'
