@@ -1,0 +1,7 @@
+{
+  "name": "The First theme",
+  "description": "My first custom theme",
+  "type": "theme",
+  "version": "0.0.0",
+  "author": "dvkrivosheev@sberbank.ru"
+}

@@ -1,4 +1,4 @@
-define( ["qlik", "jquery", './helloWorld'], function ( qlik, helloWorld ) {
+define( ['./securityTools'], function ( securityTools ) {
 	'use strict';
 	return {
 		initialProperties: {
@@ -16,7 +16,7 @@ define( ["qlik", "jquery", './helloWorld'], function ( qlik, helloWorld ) {
 		},
 		paint: function () {
       try {
-        helloWorld.showMessage();
+        securityTools.removeExport();
       } catch (error) {
         console.log(error);
       }

@@ -1,0 +1,11 @@
+{
+  "name": "security_widget",
+  "description": "",
+  "author": "",
+  "library": "windget",
+  "meta": {
+    "type": "other"
+  },
+  "properties": {},
+  "dependencies": {}
+}

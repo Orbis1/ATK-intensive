@@ -1,0 +1,7 @@
+{
+	"name": "Color Brewer",
+	"description": "Color palettes from Color Brewer 2 available at http://colorbrewer2.org",
+	"type": "theme",
+	"version": "1.0.0",
+	"author": "Nabeel Asif"
+}
