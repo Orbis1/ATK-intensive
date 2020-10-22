@@ -10,13 +10,18 @@ define(function () {
         const isExportDataItem = (node) => {
           let items = [];
           node.childNodes.forEach(item => {
-            if(item instanceof HTMLElement && item.getAttribute('tid') === 'export-group') {
+            
+            if(
+              item instanceof HTMLElement
+              && item.hasAttribute('tid')
+              &&  item.getAttribute('tid').toLowerCase().includes('export')
+              ) {
               items.push(item.parentElement);
             };
           });
           return items.length > 0;
         }
-
++
         let itemsInMenu = 0;
         let exportDataNode = null;
         
@@ -31,10 +36,10 @@ define(function () {
         // если в списке только один элемент, то удалить весь список, иначе только строку экспорта
         if(itemsInMenu > 1) {
           console.log('removing node', exportDataNode);
-          // exportDataNode.remove();
+          exportDataNode.remove();
         } else {
           console.log('removing contextMenu', contextMenu);
-          // contextMenu.remove();
+          contextMenu.remove();
         }
       };
 
@@ -47,7 +52,7 @@ define(function () {
         mutations.forEach(mutation => {
           if(mutation.addedNodes.length > 0) {
             mutation.addedNodes.forEach(node => {
-              if (node instanceof HTMLElement && node.getAttribute('tid') === 'context-menu') {
+              if (node instanceof HTMLElement && node.hasAttribute('tid')) {
                 popover = mutation.target;
                 watchContextMenu.observe(mutation.target, config)
                 removeExportNode(popover);
