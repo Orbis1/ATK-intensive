@@ -3,47 +3,83 @@ define(function () {
 
     removeExport: function () {
     
-      const removeExportNode = (popupMenu) => {
+      const removeExportNode = (contextMenu) => {
+
+        if(!contextMenu) return;
+
+        const isExportDataItem = (node) => {
+          let items = [];
+          node.childNodes.forEach(item => {
+            if(item instanceof HTMLElement && item.getAttribute('tid') === 'export-group') {
+              items.push(item.parentElement);
+            };
+          });
+          return items.length > 0;
+        }
+
+        let itemsInMenu = 0;
+        let exportDataNode = null;
+        
         // перебираем все элементы меню
-        popupMenu.querySelectorAll('.lui-list__text').forEach(item => {
-          if (item.getAttribute('tid') === 'export-group') {
-            let exportDataNode = item.closest('.lui-list__item');
-            let itemsInList = exportDataNode.parentNode.children.length;
-            
-            // если в списке только один элемент, то удалить весь список, иначе только строку экспорта
-            if(itemsInList > 1) {
-              console.log('removing node', exportDataNode);
-              exportDataNode.remove();
-            } else {
-              console.log('removing popupMenu', popupMenu);
-              popupMenu.remove();
-            }
-          }
-        });
+        contextMenu.querySelectorAll('li').forEach(item => {
+          if(isExportDataItem(item)) exportDataNode = item;
+          itemsInMenu++;
+        });        
+
+        if(exportDataNode === null) return;
+
+        // если в списке только один элемент, то удалить весь список, иначе только строку экспорта
+        if(itemsInMenu > 1) {
+          console.log('removing node', exportDataNode);
+          // exportDataNode.remove();
+        } else {
+          console.log('removing contextMenu', contextMenu);
+          // contextMenu.remove();
+        }
       };
 
       // выбираем элемент
       let target = document.body;
+      let popover = null;
 
-      // создаем экземпляр наблюдателя
-      let observer = new MutationObserver(mutations => {
-          mutations.forEach(mutation => {
-          console.log("mutation", mutation);
-            
-            // находим в изменения всплывающее контектсное меню
-            if(mutation.target.className === "lui-popover") {
-              console.log("mutation.target", mutation.target);
-              
-              // removeExportNode(mutation.target);
-            }
-          });    
+      // создаем экземпляр наблюдателя, которые отлавливает появление контекстного меню
+      let searchContextMenu = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          if(mutation.addedNodes.length > 0) {
+            mutation.addedNodes.forEach(node => {
+              if (node instanceof HTMLElement && node.getAttribute('tid') === 'context-menu') {
+                popover = mutation.target;
+                watchContextMenu.observe(mutation.target, config)
+                removeExportNode(popover);
+              };
+            });
+          }
+        });    
+      });
+
+      // создаем экземпляр наблюдателя для изменений в контекстном меню
+      let watchContextMenu = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          // поиск добавления пунка в меню
+          if(mutation.addedNodes.length > 0) {
+            mutation.addedNodes.forEach(node => {
+              if (
+                node instanceof HTMLElement 
+                && node.tagName === 'LI' 
+                && node.querySelectorAll('span')[0].getAttribute('tid') === 'export-group'
+                ) {
+                  removeExportNode(popover);
+              };
+            });
+          }
+        });    
       });
 
       // настраиваем наблюдатель
       var config = { attributes: false, subtree: true, childList: true, characterData: true }
 
       // передаем элемент и настройки в наблюдатель
-      observer.observe(target, config);
+      searchContextMenu.observe(target, config);
 
       // позже можно остановить наблюдение
       // observer.disconnect();  
