@@ -14,14 +14,14 @@ define(function () {
             if(
               item instanceof HTMLElement
               && item.hasAttribute('tid')
-              &&  item.getAttribute('tid').toLowerCase().includes('export')
+              && ['export-data','export','cao-share'].includes(item.getAttribute('tid').toLowerCase())
               ) {
               items.push(item.parentElement);
             };
           });
           return items.length > 0;
         }
-+
+
         let itemsInMenu = 0;
         let exportDataNode = null;
         
