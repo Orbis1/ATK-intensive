@@ -5,16 +5,18 @@ define(function () {
         if (!contextMenu) return;
 
         const isExportDataItem = (node) => {
+          console.log("isExportDataItem -> node", node);
           let items = [];
           // проверяем сам пункт меню
           if (
             node.hasAttribute("tid") &&
-            ["i9fd7"].includes(node.getAttribute("tid").toLowerCase())
+            ["i9fd7", 'insight-chart-expand-button'].includes(node.getAttribute("tid").toLowerCase())
           ) {
             items.push(node);
           } else {
             // проверяем содержимое пунка меню
             node.childNodes.forEach((item) => {
+              console.log("isExportDataItem -> item", item);
               if (
                 item instanceof HTMLElement &&
                 item.hasAttribute("tid") &&
@@ -26,14 +28,14 @@ define(function () {
               }
             });
           }
-          return items.length > 0;
+                    return items.length > 0;
         };
 
         let itemsInMenu = 0;
         let exportDataNode = null;
 
         // перебираем все элементы меню
-        contextMenu.querySelectorAll("li").forEach((item) => {
+        contextMenu.querySelectorAll("li, button").forEach((item) => {
           if (isExportDataItem(item)) exportDataNode = item;
           itemsInMenu++;
         });
@@ -61,6 +63,8 @@ define(function () {
             mutation.addedNodes.forEach((node) => {
               if (node instanceof HTMLElement && node.hasAttribute("tid")) {
                 popover = mutation.target;
+                console.log("popover", popover);
+                
                 watchContextMenu.observe(mutation.target, config);
                 removeExportNode(popover);
               }
