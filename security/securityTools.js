@@ -9,7 +9,7 @@ define(function () {
           // проверяем сам пункт меню
           if (
             node.hasAttribute("tid") &&
-            ["i9fd7", 'insight-chart-expand-button'].includes(node.getAttribute("tid").toLowerCase())
+            ["i9fd7", 'insight-chart-export-button'].includes(node.getAttribute("tid").toLowerCase())
           ) {
             items.push(node);
           } else {
