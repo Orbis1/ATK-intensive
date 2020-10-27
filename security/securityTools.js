@@ -5,7 +5,6 @@ define(function () {
         if (!contextMenu) return;
 
         const isExportDataItem = (node) => {
-          console.log("isExportDataItem -> node", node);
           let items = [];
           // проверяем сам пункт меню
           if (
@@ -16,7 +15,6 @@ define(function () {
           } else {
             // проверяем содержимое пунка меню
             node.childNodes.forEach((item) => {
-              console.log("isExportDataItem -> item", item);
               if (
                 item instanceof HTMLElement &&
                 item.hasAttribute("tid") &&
@@ -44,11 +42,11 @@ define(function () {
 
         // если в списке только один элемент, то удалить весь список, иначе только строку экспорта
         if (itemsInMenu > 1) {
-          exportDataNode.style = "background-color: red";
-          // exportDataNode.remove();
+          // exportDataNode.style = "background-color: red";
+          exportDataNode.remove();
         } else {
-          contextMenu.style = "background-color: red";
-          // contextMenu.remove();
+          // contextMenu.style = "background-color: red";
+          contextMenu.remove();
         }
       };
 
@@ -57,16 +55,23 @@ define(function () {
       let popover = null;
 
       // создаем экземпляр наблюдателя, которые отлавливает появление контекстного меню
+      // filter of body`s mutations
       let searchContextMenu = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
+          // console.log(mutation.target);
+          // console.log(mutation);
           if (mutation.addedNodes.length > 0) {
             mutation.addedNodes.forEach((node) => {
               if (node instanceof HTMLElement && node.hasAttribute("tid")) {
-                popover = mutation.target;
-                console.log("popover", popover);
-                
+                popover = mutation.target;              
                 watchContextMenu.observe(mutation.target, config);
                 removeExportNode(popover);
+              }
+              // для vizlib
+              if (node instanceof HTMLElement && node.className.match('vzl-*')) {
+                node.querySelectorAll('.fa-file-excel-o').forEach(item => {
+                  if(item.parentNode) item.parentNode.remove();
+                })
               }
             });
           }
