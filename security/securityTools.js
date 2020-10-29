@@ -9,7 +9,9 @@ define(function () {
           // проверяем сам пункт меню
           if (
             node.hasAttribute("tid") &&
-            ["i9fd7", 'insight-chart-expand-button'].includes(node.getAttribute("tid").toLowerCase())
+            ["i9fd7", "insight-chart-expand-button"].includes(
+              node.getAttribute("tid").toLowerCase()
+            )
           ) {
             items.push(node);
           } else {
@@ -18,35 +20,40 @@ define(function () {
               if (
                 item instanceof HTMLElement &&
                 item.hasAttribute("tid") &&
-                ["export-group", "export", "cao-share", "79f6"].includes(
-                  item.getAttribute("tid").toLowerCase()
-                )
+                [
+                  "export-group",
+                  "export",
+                  "cao-share",
+                  "79f6",
+                  "sharegroup",
+                ].includes(item.getAttribute("tid").toLowerCase())
               ) {
                 items.push(item.parentElement);
               }
             });
           }
-                    return items.length > 0;
+          console.log("isExportDataItem -> items", items);
+          return items.length > 0;
         };
 
         let itemsInMenu = 0;
-        let exportDataNode = null;
+        let exportDataNode = [];
 
         // перебираем все элементы меню
         contextMenu.querySelectorAll("li, button").forEach((item) => {
-          if (isExportDataItem(item)) exportDataNode = item;
+          if (isExportDataItem(item)) exportDataNode.push(item);
           itemsInMenu++;
         });
 
-        if (exportDataNode === null) return;
+        if (exportDataNode.length === 0) return;
 
         // если в списке только один элемент, то удалить весь список, иначе только строку экспорта
-        if (itemsInMenu > 1) {
-          // exportDataNode.style = "background-color: red";
-          exportDataNode.remove();
+        if (itemsInMenu > exportDataNode.length) {
+          exportDataNode.forEach(item => item.style = "background-color: red");
+          // exportDataNode.remove();
         } else {
-          // contextMenu.style = "background-color: red";
-          contextMenu.remove();
+          contextMenu.style = "background-color: red";
+          // contextMenu.remove();
         }
       };
 
@@ -63,15 +70,18 @@ define(function () {
           if (mutation.addedNodes.length > 0) {
             mutation.addedNodes.forEach((node) => {
               if (node instanceof HTMLElement && node.hasAttribute("tid")) {
-                popover = mutation.target;              
+                popover = mutation.target;
                 watchContextMenu.observe(mutation.target, config);
                 removeExportNode(popover);
               }
               // для vizlib
-              if (node instanceof HTMLElement && node.className.match('vzl-*')) {
-                node.querySelectorAll('.fa-file-excel-o').forEach(item => {
-                  if(item.parentNode) item.parentNode.remove();
-                })
+              if (
+                node instanceof HTMLElement &&
+                node.className.match("vzl-*")
+              ) {
+                node.querySelectorAll(".fa-file-excel-o").forEach((item) => {
+                  if (item.parentNode) item.parentNode.remove();
+                });
               }
             });
           }
